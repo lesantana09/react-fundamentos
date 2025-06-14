@@ -1,4 +1,4 @@
-# 🚀 RocketSet React Fundamentals
+# 🚀 React Fundamentals
 
 A collection of simple React exercises and demos to help you learn and practice the fundamentals of React.js. This project includes interactive examples such as searchable lists, state management, and component composition.
 
@@ -56,4 +56,3 @@ Feel free to fork, open issues, or submit pull requests to add more exercises or
 
 ---
 
-Made with ❤️ for learning React.
