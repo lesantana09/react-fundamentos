@@ -20,46 +20,48 @@
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 
   <script type="text/babel">
-    const chartData = {
-      months: [
-        { label: 'JAN', id: '01' },
-        { label: 'FEV', id: '02' },
-        { label: 'MAR', id: '03' },
-        { label: 'ABR', id: '04' },
-        { label: 'MAI', id: '05' },
-        { label: 'JUN', id: '06' },
-        { label: 'JUL', id: '07' },
-        { label: 'AGO', id: '08' },
-        { label: 'SET', id: '09' },
-        { label: 'OUT', id: '10' },
-        { label: 'NOV', id: '11' },
-        { label: 'DEZ', id: '12' }
-      ],
-      data: {
-        source1: {
-          Category1: { '01': 120, '02': 132, '03': 101, '04': 134, '05': 90, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
-          Category2: { '01': 220, '02': 182, '03': 191, '04': 234, '05': 290, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
-          Category3: { '01': 150, '02': 232, '03': 201, '04': 154, '05': 190, '06': 0,  '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
-        },
-        source2: {
-          Category1: { '01': 100, '02': 120, '03': 95, '04': 110, '05': 80, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
-          Category2: { '01': 200, '02': 170, '03': 180, '04': 220, '05': 270,'06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
-          Category3: { '01': 130, '02': 210, '03': 190, '04': 140, '05': 170, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
-        },
-        source3: {
-          Category1: { '06': 250 },
-          Category2: { '06': 340 },
-          Category3: { '06': 220 },
-        },
-        source4: {
-          Category1: { '07': 250, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
-          Category2: { '07': 340, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
-          Category3: { '07': 220, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
-        }        
-      }
-    };
+   
+    function StackedBarChart() {
+      const chartData = {
+        months: [
+          { label: 'JAN', id: '01' },
+          { label: 'FEV', id: '02' },
+          { label: 'MAR', id: '03' },
+          { label: 'ABR', id: '04' },
+          { label: 'MAI', id: '05' },
+          { label: 'JUN', id: '06' },
+          { label: 'JUL', id: '07' },
+          { label: 'AGO', id: '08' },
+          { label: 'SET', id: '09' },
+          { label: 'OUT', id: '10' },
+          { label: 'NOV', id: '11' },
+          { label: 'DEZ', id: '12' }
+        ],
+        data: {
+          source1: {
+            Category1: { '01': 120, '02': 132, '03': 101, '04': 134, '05': 90, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+            Category2: { '01': 220, '02': 182, '03': 191, '04': 234, '05': 290, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+            Category3: { '01': 150, '02': 232, '03': 201, '04': 154, '05': 190, '06': 0,  '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+          },
+          source2: {
+            Category1: { '01': 100, '02': 120, '03': 95, '04': 110, '05': 80, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+            Category2: { '01': 200, '02': 170, '03': 180, '04': 220, '05': 270,'06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+            Category3: { '01': 130, '02': 210, '03': 190, '04': 140, '05': 170, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+          },
+          source3: {
+            Category1: { '06': 250 },
+            Category2: { '06': 340 },
+            Category3: { '06': 220 },
+          },
+          source4: {
+            Category1: { '07': 250, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
+            Category2: { '07': 340, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
+            Category3: { '07': 220, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
+          }        
+        }
+      };
 
-    function StackedBarChart({ chartData }) {
+
       // Use Object.keys do primeiro source para pegar as categorias dinamicamente
       const sources = Object.keys(chartData.data);
       const categories = Object.keys(chartData.data[sources[0]]);
@@ -97,7 +99,6 @@
             }
           });
         });
-        console.log(series)
 
         // Legenda usando as chaves das categorias
         const legendData = categories;
@@ -153,10 +154,132 @@
       return <div ref={chartRef} id="chart"></div>;
     }
 
+
+    function StackedBarChartDataset() {
+      const empresas = [
+        { name: 'Empresa1', color: '#FF6200' },
+        { name: 'Empresa2', color: '#002766' },
+        { name: 'Empresa3', color: '#4C4C4C' }
+      ];
+
+      const source = [
+        { product: 'JAN base1', Empresa1: 43.3, Empresa2: 85.8, Empresa3: 93.7 },
+        { product: 'JAN base2', Empresa1: 12.1, Empresa2: 14.2, Empresa3: 22.8 },
+        { product: 'FEV base1', Empresa1: 83.1, Empresa2: 73.4, Empresa3: 55.1 },
+        { product: 'FEV base2', Empresa1: 18.0, Empresa2: 20.2, Empresa3: 25.6 },
+        { product: 'MAR base1', Empresa1: 86.4, Empresa2: 65.2, Empresa3: 82.5 },
+        { product: 'MAR base2', Empresa1: 15.3, Empresa2: 19.8, Empresa3: 30.1 },
+        { product: 'ABR base1', Empresa1: 70, Empresa2: 60, Empresa3: 50 },
+        { product: 'ABR base2', Empresa1: 20, Empresa2: 15, Empresa3: 10 },
+        { product: 'MAI base1', Empresa1: 75, Empresa2: 65, Empresa3: 55 },
+        { product: 'MAI base2', Empresa1: 25, Empresa2: 18, Empresa3: 12 },
+        { product: 'JUN base3', Empresa1: 30, Empresa2: 20, Empresa3: 15 },
+
+        { product: 'JUL base4', Empresa1: 90, Empresa2: 80, Empresa3: 70 },
+        { product: 'AGO base4', Empresa1: 85, Empresa2: 75, Empresa3: 65 },
+        { product: 'SET base4', Empresa1: 88, Empresa2: 78, Empresa3: 68 },
+        { product: 'OUT base4', Empresa1: 92, Empresa2: 82, Empresa3: 72 },
+        { product: 'NOV base4', Empresa1: 93, Empresa2: 83, Empresa3: 73 },
+        { product: 'DEZ base4', Empresa1: 95, Empresa2: 85, Empresa3: 75 }
+      ];      
+
+      function hexToRgba(hex, alpha) {
+        const bigint = parseInt(hex.replace('#', ''), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      }
+
+      const basePorMes = {};
+      source.forEach(item => {
+        const [mes, base] = item.product.split(' ');
+        if (!basePorMes[mes]) basePorMes[mes] = [];
+        if (basePorMes[mes].indexOf(base) === -1) basePorMes[mes].push(base);
+      });    
+      
+      
+      const chartRef = React.useRef(null);
+      React.useEffect(() => {
+        if (!chartRef.current) return;
+        
+        const chart = echarts.init(chartRef.current);   
+        const option = {             
+          legend: {
+            data: empresas.map(e => ({
+              name: e.name,
+              itemStyle: { color: e.color }
+            }))
+          },        
+          tooltip: {},
+          dataset: {
+            dimensions: ['product', ...empresas.map(e => e.name)],
+            source
+          },        
+          xAxis: {
+            type: 'category',
+            axisLabel: {
+              interval: 0,
+              formatter: (value) => {
+                const [mes, base] = value.split(' ');
+                return `{month|${mes}}\n{base|${base}}`;
+              },
+              rich: {
+                month: {
+                  fontSize: 12,
+                  fontWeight: 'normal',
+                  color: '#000'
+                },
+                base: {
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                  color: '#444'
+                }
+              }
+            }
+          },        
+          yAxis: {},   
+          series: empresas.map(emp => ({
+            name: emp.name,
+            type: 'bar',
+            stack: 'total',
+            itemStyle: {
+              color: (params) => {
+                const produto = params.data.product;
+                const [mes, base] = produto.split(' ');
+                const bases = basePorMes[mes];
+                const indexBase = bases.indexOf(base);
+                const alpha = indexBase === 0 ? 1 : 0.5;
+                return hexToRgba(emp.color, alpha);
+              }
+            },
+            label: {
+              show: false // sem texto dentro das barras
+            }
+          }))             
+        }
+        
+
+        chart.setOption(option);    
+        const handleResize = () => chart.resize();
+        window.addEventListener('resize', handleResize);
+               
+        return () => {
+          chart.dispose();
+          window.removeEventListener('resize', handleResize);
+        };
+
+      }, [empresas, source]);
+      
+      return <div ref={chartRef} id="chart"></div>;
+    }
+
     function App() {
       return (
         <main style={{ padding: '1rem' }}>
-          <StackedBarChart chartData={chartData} />
+          <StackedBarChart />
+          <hr/>
+          <StackedBarChartDataset />
         </main>
       );
     }
