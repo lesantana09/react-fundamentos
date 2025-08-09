@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RocketSet React Fundamental</title>
+  <style>
+    #chart {
+      width: 100%;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+
+  <script type="text/babel">
+    const chartData = {
+      months: [
+        { label: 'JAN', id: '01' },
+        { label: 'FEV', id: '02' },
+        { label: 'MAR', id: '03' },
+        { label: 'ABR', id: '04' },
+        { label: 'MAI', id: '05' },
+        { label: 'JUN', id: '06' },
+        { label: 'JUL', id: '07' },
+        { label: 'AGO', id: '08' },
+        { label: 'SET', id: '09' },
+        { label: 'OUT', id: '10' },
+        { label: 'NOV', id: '11' },
+        { label: 'DEZ', id: '12' }
+      ],
+      data: {
+        real: {
+          Category1: { '01': 120, '02': 132, '03': 101, '04': 134, '05': 90, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+          Category2: { '01': 220, '02': 182, '03': 191, '04': 234, '05': 290, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+          Category3: { '01': 150, '02': 232, '03': 201, '04': 154, '05': 190, '06': 0,  '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+        },
+        guidance: {
+          Category1: { '01': 100, '02': 120, '03': 95, '04': 110, '05': 80, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+          Category2: { '01': 200, '02': 170, '03': 180, '04': 220, '05': 270,'06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+          Category3: { '01': 130, '02': 210, '03': 190, '04': 140, '05': 170, '06': 0, '07': 0, '08': 0, '09': 0, '10': 0, '11': 0, '12': 0 },
+        },
+        previa: {
+          Category1: { '06': 250 },
+          Category2: { '06': 340 },
+          Category3: { '06': 220 },
+        },
+        FYF: {
+          Category1: { '07': 250, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
+          Category2: { '07': 340, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
+          Category3: { '07': 220, '08': 250, '09': 250,'10': 250, '11': 250, '12': 250,},
+        }        
+      }
+    };
+
+    function StackedBarChart({ chartData }) {
+      // Use Object.keys do primeiro source para pegar as categorias dinamicamente
+      const sources = Object.keys(chartData.data);
+      const categories = Object.keys(chartData.data[sources[0]]);
+      const { months, data } = chartData;
+      const chartRef = React.useRef(null);
+
+      React.useEffect(() => {
+        if (!chartRef.current) return;
+        const chart = echarts.init(chartRef.current);
+
+        const categoryColors = ['#FF6200', '#002766', '#4C4C4C'];
+
+        const series = [];
+
+        sources.forEach((source, sourceIndex) => {
+          categories.forEach((category, catIndex) => {
+            
+            const dataArr = months.map(month => {
+            const val = data[source][category]?.[month.id];
+            return val !== undefined && val !== null && val > 0 ? val : undefined;
+            });
+
+        
+            if (dataArr.some(v => v !== null)) {
+              series.push({
+                name: category,
+                type: 'bar',
+                stack: source,
+                data: dataArr,
+                itemStyle: {
+                  color: categoryColors[catIndex],
+                  opacity: sourceIndex === 0 ? 1 : 0.5    
+                }
+              });
+            }
+          });
+        });
+        console.log(series)
+
+        // Legenda usando as chaves das categorias
+        const legendData = categories;
+
+        const option = {
+        
+          legend: {
+            data: legendData,
+            textStyle: { fontWeight: 'bold', fontSize: 14 }
+          },
+          xAxis: {
+            type: 'category',
+            data: months.map(m => {
+              // Para cada mês, verifica quais fontes têm dados > 0
+              const fontes = [];
+              sources.forEach(source => {
+                let hasValue = categories.some(category => {
+                  const val = data[source][category]?.[m.id];
+                  return val !== undefined && val !== null && val > 0;
+                });
+                if (hasValue) {
+                  fontes.push(source.charAt(0).toUpperCase() + source.slice(1));
+                }
+              });
+              // Monta o label: fontes | mês
+              return fontes.length > 0
+                ? `${fontes.join(' | ')}\n${m.label}`
+                : m.label;
+            }),
+            axisLabel: {
+              interval: 0,
+              formatter: function(value) {
+                // Centraliza o texto do label
+                return value.replace('|', '| ');
+              },
+              align: 'center'
+            }
+          },
+          yAxis: { type: 'value' },
+          series
+        };
+
+        chart.setOption(option);
+        const handleResize = () => chart.resize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+          chart.dispose();
+          window.removeEventListener('resize', handleResize);
+        };
+      }, [chartData]);
+
+      return <div ref={chartRef} id="chart"></div>;
+    }
+
+    function App() {
+      return (
+        <main style={{ padding: '1rem' }}>
+          <StackedBarChart chartData={chartData} />
+        </main>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
